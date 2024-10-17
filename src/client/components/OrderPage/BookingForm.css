@@ -1,0 +1,57 @@
+.formWrapper {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    ),
+    url("");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  padding: 9rem 0 0;
+  width: 100vw;
+}
+.bookingForm {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #cccccc6e;
+  border-radius: 10px;
+  background-color: #f9f9f93d;
+  color: #fff;
+}
+.bookingForm h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.formGroup {
+  margin-bottom: 1rem;
+}
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.formGroup input,
+.formGroup select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.formGroup input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+button[type="submit"] {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button[type="submit"]:hover {
+  background-color: #45a049;
+}

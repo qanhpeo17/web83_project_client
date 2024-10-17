@@ -1,0 +1,62 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    background-color: #333;
+    color: #fff; 
+  }
+  .logo,.navigation-header{
+    height: 100%;
+  }
+  .logo a{ width: 40%;}
+  .logo{
+    width: 20%;
+    overflow: hidden;
+    border-radius: 50px ;
+    transition: 0.3s;
+  }
+  .logo:hover{
+    border-radius: 0;
+  }
+  .navigation-header{
+    width: 80%;
+  }
+  .logo img {
+    height: 5rem; 
+  }
+  
+  .navigation-header {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+  }
+  .logoutBtn{
+    width: 6rem;
+    height: 3rem;
+    background: #000;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 1rem 2rem 1rem;
+  }
+  .logoutBtn:hover{
+    background: #fff;
+    color: #333;
+    font-weight: 550;
+    border-radius: 0;
+  }
+  .authLinks {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các link */
+  }
+  
+  .authLinks a, .userInfo button {
+    color: #fff;
+    text-decoration: none; /* Bỏ gạch chân */
+  }
+  

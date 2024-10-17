@@ -1,0 +1,120 @@
+.contentWrapper {
+  padding: 1rem 0;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.field {
+  border-radius: 0 10% 0 10%;
+  height: 420px;
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 2rem;
+  background-size: 100%; /* Set initial background size */
+  transition: background-size 0.5s ease; /* Smooth transition for background size */
+}
+
+.fieldtypeList {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap; /* Allow items to wrap */
+  /* width: 80%; */
+}
+
+.field1 {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    );
+  background-size: 250%;
+  background-position: center;
+}
+
+.field2 {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    ),
+    url("./media/tong-hop-kich-thuoc-san-bong-da-7-nguoi-dat-chuan-moi-nhat-1294.jpg");
+  background-size: 250%;
+  background-position: center;
+}
+
+.field3 {
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.65)
+    ),
+    url("./media/kich-thuoc-san-bong-da-1-jpeg.webp");
+  background-size: 250%;
+  background-position: center;
+}
+
+.field1:hover,
+.field2:hover,
+.field3:hover {
+  background-size: 280%; /* Increase the background size to zoom in */
+}
+
+.orderBtn {
+  text-decoration: none;
+  width: 50%;
+  padding: 1rem;
+  background: #8383832f;
+  transition: 0.3s;
+  text-align: center;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 0 40% 0 40%;
+  font-weight: 700;
+}
+
+.orderBtn:hover {
+  background: #777777;
+  border-radius: 40% 0 40% 0;
+  letter-spacing: 1px;
+}
+
+/* Media Queries */
+@media (max-width: 1320px) {
+  .field {
+    height: 250px;
+    width: 250px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .field {
+    height: 150px;
+    width: 150px;
+    font-size: 1.5rem;
+  }
+  .fieldtypeList{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .field {
+    height: 150px;
+    width: 150px;
+    font-size: 1rem;
+  }
+
+  .orderBtn {
+    width: 70%;
+    font-size: 0.8rem;
+  }
+}
