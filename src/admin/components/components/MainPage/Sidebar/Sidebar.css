@@ -1,0 +1,305 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:after {
+  content: "";
+}
+.sidebarWrapper {
+  background: #000;
+}
+h1 {
+  margin: 80px 0 10px 0;
+  font-size: 52px;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0px #dc143c, 2px 2px 0px #dc143c, 3px 3px 0px #dc143c,
+    4px 4px 0px #dc143c;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+nav {
+  float: left;
+  position: relative;
+  left: 0%;
+  background: transparent;
+  transform: scale(0.8);
+  height: 60vh;
+  position: fixed;
+  top:3.75rem;
+}
+
+nav ul {
+  text-align: center;
+}
+
+nav ul li {
+  position: relative;
+  width: 8rem;
+  cursor: pointer;
+  background: rgb(153, 153, 153);
+  text-transform: uppercase;
+  transition: all 0.4s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8rem;
+  display: flex;
+}
+
+nav ul li:after {
+  position: absolute;
+  background: rgb(124, 124, 124);
+  color: #fff;
+  top: 0;
+  left: 125px;
+  width: 9rem;
+  height: 100%;
+  opacity: 0.5;
+  transform: perspective(400px) rotateY(90deg);
+  transform-origin: 0 100%;
+  transition: all 0.4s ease-out;
+}
+
+nav ul li:nth-child(1):after {
+  content: "Tất cả";
+  line-height: 88px;
+}
+nav ul li:nth-child(2):after {
+  content: "Liên hệ";
+  line-height: 88px;
+}
+nav ul li:nth-child(3):after {
+  content: "Sân 5";
+  line-height: 88px;
+}
+nav ul li:nth-child(4):after {
+  content: "Sân 7";
+  line-height: 88px;
+}
+nav ul li:nth-child(5):after {
+  content: "Sân 11";
+  line-height: 88px;
+}
+
+nav ul li:hover {
+  transform: translateX(-70px);
+}
+
+nav ul li:hover:after {
+  opacity: 1;
+  transform: perspective(400px) rotateY(0deg) scale(1);
+}
+
+nav ul li > div {
+  display: inline-block;
+  padding: 25px 0;
+  background: transparent;
+}
+
+nav ul li div {
+  position: relative;
+}
+
+ul {
+  list-style-type: none;
+}
+svg {
+  width: 50%;
+  height: 50%;
+}
+/*white triangle over red triangle*/
+.roof-edge:after {
+  position: absolute;
+  left: -14.5px;
+  top: 3px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 14.5px 10px 14.5px;
+  border-color: transparent transparent white transparent;
+  background-color: #000;
+}
+
+.front {
+  position: relative;
+  top: 3px;
+  width: 28.5px;
+  height: 20px;
+  margin: 0 auto;
+  background: white;
+}
+/*door*/
+.front:after {
+  position: absolute;
+
+  width: 11px;
+  height: 13px;
+  bottom: 0;
+  left: 9px;
+}
+
+/*/// About me ////*/
+
+.head {
+  width: 32px;
+  height: 35px;
+  background: white;
+  border-radius: 8px;
+}
+/*mouth*/
+.head:after {
+  width: 4px;
+  height: 10px;
+  background: white;
+  position: absolute;
+  border-radius: 4px 0 0 4px;
+  top: 21px;
+  left: 14px;
+  transform: rotate(270deg);
+}
+
+.eyes {
+  width: 8px;
+  height: 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+}
+/*right eye*/
+.eyes:after {
+  width: 8px;
+  height: 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 14px;
+  background: rgb(0, 0, 0);
+}
+
+.beard {
+  width: 32px;
+  height: 17px;
+  background: rgb(0, 0, 0);
+  border: 2px solid white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 0 8px 8px;
+}
+/*nose*/
+.beard:after {
+  position: absolute;
+  top: -2px;
+  left: 11px;
+  background: white;
+  width: 6px;
+  height: 4px;
+  border-left: 1px solid rgb(0, 0, 0);
+  border-right: 1px solid rgb(0, 0, 0);
+}
+
+/*//work//*/
+
+.paper {
+  position: relative;
+  height: 32px;
+  width: 29px;
+  background: white;
+  border: 2px solid white;
+}
+
+/*window*/
+.paper:after {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 25px;
+  height: 29px;
+  background: white;
+  border-top: 4px solid crimson;
+}
+
+.lines {
+  position: absolute;
+  top: 36px;
+  left: 5px;
+  width: 11px;
+  box-shadow: 0 0 0 1px crimson;
+}
+
+.lines:after {
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  width: 14px;
+  box-shadow: 0 0 0 1px crimson;
+}
+
+.lines:nth-child(2) {
+  position: absolute;
+  top: 44px;
+  left: 8px;
+  width: 11px;
+}
+
+.lines:nth-child(2):after {
+  position: absolute;
+  top: 4px;
+  left: -3px;
+  width: 11px;
+}
+
+.lines:nth-child(3) {
+  position: absolute;
+  top: 52px;
+  left: 8px;
+  width: 14px;
+}
+
+.lines:nth-child(3):after {
+  display: none;
+}
+
+/*//mail //*/
+
+.mail-base {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: white;
+}
+
+.mail-top {
+  position: absolute;
+  z-index: 20;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform: rotate(180deg);
+  border-style: solid;
+  border-width: 0 16px 11px 16px;
+  border-color: transparent transparent crimson transparent;
+}
+
+.mail-top:after {
+  position: absolute;
+  z-index: 20;
+  left: -16px;
+  top: 3px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 16px 9px 16px;
+  border-color: transparent transparent white transparent;
+}
+.sidebarIcon {
+  width: 80%;
+}

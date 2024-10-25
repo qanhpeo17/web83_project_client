@@ -11,7 +11,10 @@ import {
 import FormContainer from "./client/components/FormContainer.js";
 import ToggleContainer from "./client/components/ToggleContainer.js";
 import BookingPage from "./client/screens/BookingPage.jsx";
+
 import axios from "axios";
+import ShowBookings from "./client/components/MainPage/Content/showBookings/ShowBookings.jsx";
+import ViewBookingPage from "./client/screens/ViewBookingPage.jsx";
 
 const App = () => {
   const [credentials, setCredentials] = useState({});
@@ -186,12 +189,11 @@ const App = () => {
             </div>
           }
         />
-        <Route
-          path="/MainPage"
-          element={isAuthenticated ? <MainPage /> : <Navigate to="/login" />}
-        />
+        <Route path="/MainPage" element={<MainPage />} />
 
         <Route path="/booking" element={<BookingPage />} />
+
+        <Route path="/your-bookings" element={<ViewBookingPage />} />
       </Routes>
     </Router>
   );

@@ -54,7 +54,11 @@ function Content() {
             >
               <p>{item.name}</p>
               <p>
-                <strong>{item.quantity}</strong> sân
+                Còn{" "}
+                <strong>
+                  {item.quantity - item.available}/{item.quantity}
+                </strong>{" "}
+                sân
               </p>
               <a href="/booking" className="orderBtn">
                 Đặt sân

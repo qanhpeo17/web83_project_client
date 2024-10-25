@@ -34,22 +34,16 @@ function Header() {
     <header className="header">
       <div className="logo">
         <Link to="/MainPage" style={{ height: "100%" }}>
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo" /> Admin
         </Link>
       </div>
-
       <div className="navigation-header">
         {isAuthenticated ? ( // Kiểm tra nếu người dùng đã đăng nhập
           <div className="userInfo">
-            {/* Hiển thị tên người dùng */}
-            {/* <span>Xin chào, {user.name}</span> */}
+            {/* <span>Xin chào, {user.name}</span>  Hiển thị tên người dùng */}
             <button className="logoutBtn" onClick={handleLogout}>
               Đăng xuất
             </button>
-            {/* Link đến lịch đặt sân của người dùng */}
-            <Link className="viewBookingLink" to="/your-bookings">
-              Lịch đặt sân của bạn
-            </Link>
           </div>
         ) : (
           <div className="authLinks">

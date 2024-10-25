@@ -6,11 +6,6 @@
     background-color: #333;
     color: #fff; 
   }
-  .viewBookingLink{
-    width: 50%;
-    text-decoration: none;
-    color:#fff
-  }
   .logo,.navigation-header{
     height: 100%;
   }
@@ -39,10 +34,7 @@
   
   .userInfo {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
-    width: 30%;
-    justify-content: space-around;
   }
   .logoutBtn{
     width: 6rem;

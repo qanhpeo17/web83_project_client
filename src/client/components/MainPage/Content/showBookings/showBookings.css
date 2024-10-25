@@ -1,0 +1,7 @@
+.tableWrapper{
+    color: #fff;
+    height: 100vh;
+    padding:  3rem;
+    display: flex;
+    justify-content: center;
+}
