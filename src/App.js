@@ -15,7 +15,9 @@ import BookingPage from "./client/screens/BookingPage.jsx";
 import axios from "axios";
 import ShowBookings from "./client/components/MainPage/Content/showBookings/ShowBookings.jsx";
 import ViewBookingPage from "./client/screens/ViewBookingPage.jsx";
-
+import AdminPage from "./admin/screens/AdminPage.jsx";
+import BookingManagement from "../src/admin/components/MainPage/Content/bookingManagement/BookingManagement.jsx";
+import UserManagement from "../src/admin/components/MainPage/Content/userManagement/UserManagement.jsx";
 const App = () => {
   const [credentials, setCredentials] = useState({});
   const [isSignUpActive, setIsSignUpActive] = useState(false);
@@ -194,6 +196,12 @@ const App = () => {
         <Route path="/booking" element={<BookingPage />} />
 
         <Route path="/your-bookings" element={<ViewBookingPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/admin-booking-management"
+          element={<BookingManagement />}
+        />
+        <Route path="/admin-user-management" element={<UserManagement />} />
       </Routes>
     </Router>
   );
