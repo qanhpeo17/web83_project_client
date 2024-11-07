@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import "./BookingForm.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
+//import moment from "moment";
+import moment from "moment-timezone";
+
 function BookingForm() {
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
-  // const currDate = moment().date;
-  // const currTime = moment().hours;
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     phone: "",
-    fieldId: "6707ea59cacb858f48b1973e", // Field mặc định
+    fieldId: "6707ea59cacb858f48b1973e", // Default Field
     fieldChildId: "",
     rentalDate: "",
     rentalTime: "",
@@ -19,7 +19,9 @@ function BookingForm() {
     ball: 1,
   });
 
-  const [fieldChildren, setFieldChildren] = useState([]); // Lưu trữ danh sách sân con
+  const [fieldChildren, setFieldChildren] = useState([]);
+
+  // Helper functions to validate date and time
   function isValidDate(rentalDate) {
     return moment(rentalDate).isSameOrAfter(moment(), "day");
   }
@@ -28,34 +30,23 @@ function BookingForm() {
     const enteredDateTime = moment(`${rentalDate}T${rentalTime}`);
     return enteredDateTime.isSameOrAfter(moment());
   }
+
   const fetchFieldChildren = (fieldId) => {
     axios
       .get(`http://localhost:9009/api/v1/field/get-child/${fieldId}`)
       .then((response) => {
-        console.log("Dữ liệu sân con:", response.data); // Kiểm tra dữ liệu trả về từ API
-
-        // Truy cập đúng vào mảng childFields
-        if (
-          response.data.childFields &&
-          Array.isArray(response.data.childFields)
-        ) {
-          setFieldChildren(response.data.childFields); // Đặt mảng sân con
-        } else {
-          setFieldChildren([]); // Nếu không phải mảng, đặt về mảng rỗng
-        }
+        setFieldChildren(response.data.childFields || []);
       })
       .catch((error) => {
-        console.error("Có lỗi khi lấy sân con:", error);
-        setFieldChildren([]); // Đảm bảo fieldChildren là mảng rỗng nếu xảy ra lỗi
+        console.error("Error fetching child fields:", error);
+        setFieldChildren([]);
       });
   };
 
-  // Tự động load sân con dựa vào fieldId mặc định khi component mount
   useEffect(() => {
     fetchFieldChildren(formData.fieldId);
   }, []);
 
-  // Xử lý thay đổi form
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -63,45 +54,47 @@ function BookingForm() {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Nếu người dùng thay đổi loại sân, gọi hàm để lấy danh sách sân con
     if (name === "fieldId") {
       fetchFieldChildren(value);
     }
   };
 
-  // Xử lý submit form
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isValidDate(formData.rentalDate)) {
-      alert("Ngay thue phai tu hien tai tro di");
-      return;
-    }
-    if (!isValidTime(formData.rentalDate, formData.rentalTime)) {
-      alert("Gio thue phai tu hien tai tro di");
-      return;
-    }
-    // Kiểm tra token từ localStorage
+    // Kết hợp rentalDate và rentalTime
+    const localDateTime = moment(
+      `${formData.rentalDate}T${formData.rentalTime}`
+    );
+    const adjustedDateTime = localDateTime.add(0, "hours").toISOString(); // Trừ đi 7 tiếng
+
+    const formDataToSend = {
+      ...formData,
+      rentalTime: adjustedDateTime, // Gửi thời gian đã trừ đi 7 tiếng
+    };
     const token = localStorage.getItem("access_token");
     if (!token) {
       setError("Bạn cần đăng nhập để đặt sân.");
       return;
     }
-
     axios
-      .post("http://localhost:9009/api/v1/booking/", formData, {
+      .post("http://localhost:9009/api/v1/booking/", formDataToSend, {
         headers: {
-          Authorization: `Bearer ${token}`, // Đảm bảo token được gửi trong headers
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log("Response từ server:", response.data);
+        console.log("Booking successful:", response.data);
         alert("Đặt sân thành công!");
-        navigate("/MainPage"); // Điều hướng sau khi đặt sân thành công
+        navigate("/MainPage");
       })
       .catch((error) => {
-        console.error("Có lỗi khi gửi request:", error);
-        setError("Có lỗi xảy ra khi gửi form.");
+        console.error("Error response from server:", error.response);
+        if (error.response && error.response.status === 409) {
+          alert("Giờ đặt sân bị trùng! Vui lòng chọn giờ khác.");
+        } else {
+          setError("Có lỗi xảy ra khi gửi form.");
+        }
       });
   };
 
@@ -136,6 +129,7 @@ function BookingForm() {
             <option value="671210f05a63618873f160c6">Sân 11</option>
           </select>
         </div>
+
         <div className="formGroup">
           <label htmlFor="fieldChild">Sân con</label>
           <select
@@ -146,15 +140,11 @@ function BookingForm() {
             required
           >
             <option value="">Chọn sân con</option>
-            {Array.isArray(fieldChildren) && fieldChildren.length > 0 ? (
-              fieldChildren.map((child) => (
-                <option key={child._id} value={child._id}>
-                  {child.name}
-                </option>
-              ))
-            ) : (
-              <option value="">Đang tải...</option>
-            )}
+            {fieldChildren.map((child) => (
+              <option key={child._id} value={child._id}>
+                {child.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -165,7 +155,6 @@ function BookingForm() {
             id="rentalDate"
             name="rentalDate"
             value={formData.rentalDate}
-            // value={currDate}
             onChange={handleChange}
             required
           />
@@ -178,12 +167,11 @@ function BookingForm() {
             id="rentalTime"
             name="rentalTime"
             value={formData.rentalTime}
-            //value={currTime}
             onChange={handleChange}
             required
           />
         </div>
-        {/*  */}
+
         <div className="formGroup">
           <label>
             <input

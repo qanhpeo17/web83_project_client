@@ -21,20 +21,12 @@ import UserManagement from "../src/admin/components/MainPage/Content/userManagem
 const App = () => {
   const [credentials, setCredentials] = useState({});
   const [isSignUpActive, setIsSignUpActive] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Cấu hình Axios mặc định để thêm token vào tất cả các yêu cầu
   axios.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${localStorage.getItem("token")}`;
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //   }
-  // }, []);
 
   const handleSignInClick = () => {
     setIsSignUpActive(false);
@@ -44,25 +36,16 @@ const App = () => {
     setIsSignUpActive(true);
   };
 
-  // Lưu token vào localStorage khi đăng nhập thành công
   const handleLoginSuccess = (token) => {
-    localStorage.setItem("access_token", token); // Lưu access token
-    setIsAuthenticated(true); // Đánh dấu người dùng đã đăng nhập
+    localStorage.setItem("access_token", token);
+    setIsAuthenticated(true);
   };
 
-  // Kiểm tra token khi ứng dụng khởi động
-  // useEffect(() => {
-  //   const token = localStorage.getItem("access_token");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //   }
-  // }, []);
   useEffect(() => {
-    const token = localStorage.getItem("access_token"); // Lấy token từ localStorage
+    const token = localStorage.getItem("access_token");
     if (token) {
       setIsAuthenticated(true);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // Thiết lập token vào headers của axios
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
       setIsAuthenticated(false);
     }
@@ -111,24 +94,7 @@ const App = () => {
       setIsAuthenticated(false);
     }
   };
-  // const handleLogin = async (email, password) => {
-  // try {
-  //   const response = await axios.post(
-  //     "http://localhost:9009/api/v1/auth/login",
-  //     {
-  //       email,
-  //       password,
-  //     }
-  //   );
-  //   if (response.status === 200) {
-  //     const token = response.data.access_token;
-  //     handleLoginSuccess(token);
-  //   }
-  // } catch (error) {
-  //   console.error("Login failed:", error);
-  // }
 
-  //};
   const handleLogin = () => {
     fetch("http://localhost:9009/api/v1/auth/login", {
       method: "POST",

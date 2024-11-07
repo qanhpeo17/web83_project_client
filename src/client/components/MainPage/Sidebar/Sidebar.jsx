@@ -23,13 +23,19 @@ function Sidebar() {
           </div>
         </li>
         <li>
-          <img src={s5logo} alt="" className="sidebarIcon" />
+          <a href="https://thuvienphapluat.vn/hoi-dap-phap-luat/839C72A-hd-san-bong-da-05-nguoi-co-kich-thuoc-nhu-the-nao-tieu-chuan-cua-bong-dung-trong-san-bong-da-05-nguoi-.html">
+            <img src={s5logo} alt="" className="sidebarIcon" />
+          </a>
         </li>
         <li>
-          <img src={s7logo} className="sidebarIcon" alt="" />
+          <a href="https://vecgroup.vn/kich-thuoc-san-bong-da-7-nguoi-tieu-chuan-vff">
+            <img src={s7logo} className="sidebarIcon" alt="" />
+          </a>
         </li>
         <li>
-          <img src={s11logo} className="sidebarIcon" alt="" />
+          <a href="https://vecgroup.vn/kich-thuoc-san-bong-da-11-nguoi-tieu-chuan-fifa">
+            <img src={s11logo} className="sidebarIcon" alt="" />
+          </a>
         </li>
       </ul>
     </nav>

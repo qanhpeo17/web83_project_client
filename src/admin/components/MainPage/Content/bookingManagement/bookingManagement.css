@@ -1,0 +1,89 @@
+/* Wrapper for the table and pagination */
+.tableWrapper {
+    overflow-x: auto;
+height: 100vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table styling */
+  .userTable {
+    height: 75vh;    width: 100vw;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+  
+  .userTable th,
+  .userTable td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .userTable th {
+    background-color: #222222ce;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .userTable td {
+    background-color: #00000093;
+  }
+  
+  /* Hover effect for table rows */
+  .userTable tr:hover td {
+    background-color: #4444444f;
+  }
+  
+  /* Delete button styling */
+  .deleteButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
+  
+  /* Pagination controls */
+  .pagination {
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+  }
+  
+  .pagination button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #4f4f4fc9;
+    color: white;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination button:disabled {
+    background-color: #5858585c;
+    cursor: not-allowed;
+  }
+  
+  .pagination button:not(:disabled):hover {
+    background-color: #00000084;
+  }
+  
+  .pagination span {
+    font-size: 16px;
+    color: #fff;
+
+  }
+  

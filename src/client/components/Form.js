@@ -65,6 +65,9 @@ const Form = ({
         localStorage.setItem("user", result.userInfo);
         // Gọi hàm handleLoginSuccess
         handleLoginSuccess(result.access_token);
+        const userData = JSON.parse(
+          atob(localStorage.getItem("token").split(".")[1])
+        );
 
         // Điều hướng đến trang chính
         navigate("/MainPage");
@@ -96,15 +99,21 @@ const Form = ({
 
         if (response.ok) {
           const result = await response.json();
+          alert("Thành công");
           console.log("Form submitted successfully:", result);
           if (formType === "sign-in") {
             localStorage.setItem("access_token", result.access_token);
             localStorage.setItem("refresh_token", result.refresh_token);
-            // localStorage.setItem("user", result.userInfo);
-            handleLoginSuccess(result.access_token); // Truyền token tới handleLoginSuccess
-            navigate("/MainPage"); // Điều hướng đến trang chính
+            const userData = JSON.parse(
+              atob(result.access_token.split(".")[1])
+            );
+            handleLoginSuccess(result.access_token);
+            if (userData.role === "user") {
+              navigate("/MainPage");
+            } else {
+              navigate("/admin-booking-management");
+            }
           } else {
-            // Sau khi đăng ký thành công, chuyển đến form đăng nhập
             toggleFormType("sign-in");
             await handleSubmitLogin(result.email, values.password);
           }
@@ -117,64 +126,6 @@ const Form = ({
       }
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (validate()) {
-  //     try {
-  //       const endpoint =
-  //         formType === "sign-up"
-  //           ? "http://localhost:9009/api/v1/auth/register"
-  //           : "http://localhost:9009/api/v1/auth/login";
-  //       const response = await fetch(endpoint, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(values),
-  //       });
-  //       if (response.ok) {
-  //         const result = await response.json();
-  //         console.log("Form submitted successfully:", result);
-  //         if (formType === "sign-in") {
-  //           handleLoginSuccess(result.token); // Pass the token to handleLoginSuccess
-  //           navigate("/MainPage"); // Redirect to the main page
-  //         } else {
-  //           // Successful registration, switch to login form
-  //           toggleFormType("sign-in");
-  //           await handleSubmitLogin(result.email, values.password);
-  //         }
-  //       } else {
-  //         const errorResult = await response.json();
-  //         console.error("Form submission error:", errorResult.message);
-  //       }
-  //     } catch (error) {
-  //       console.error("Form submission error:", error);
-  //     }
-  //   }
-  // };
-
-  // const handleSubmitLogin = async (email, password) => {
-  //   try {
-  //     const response = await fetch("http://localhost:9009/api/v1/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       localStorage.setItem("token", result.token);
-  //       handleLoginSuccess();
-  //       navigate("/MainPage"); // Chuyển hướng đến trang chính sau khi đăng nhập thành công
-  //     } else {
-  //       const errorResult = await response.json();
-  //       console.error("Login error:", errorResult.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Login error:", error);
-  //   }
-  // };
 
   return (
     <form onSubmit={handleSubmit}>

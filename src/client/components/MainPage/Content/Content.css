@@ -1,108 +1,129 @@
+/* CSS cho Content */
 .contentWrapper {
-  padding: 1rem 0;
-  height: 70vh;
+  padding: 2rem 0;
+  min-height: 70vh;
+  height: 200vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-
+  gap: 2rem;
 }
 
+/* Danh sách sân */
+.fieldtypeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Các ô sân */
 .field {
-  border-radius: 0 10% 0 10%;
-  height: 420px;
-  width: 420px;
+  height: 350px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #fff;
-  font-size: 2rem;
-  background-size: 100%; /* Set initial background size */
-  transition: background-size 0.5s ease; /* Smooth transition for background size */
-}
-
-.fieldtypeList {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap; /* Allow items to wrap */
-  /* width: 80%; */
-}
-
-.field1 {
-  background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.65),
-      rgba(0, 0, 0, 0.65)
-    );
-  background-size: 250%;
+  font-size: 1.5rem;
+  background-size: cover;
   background-position: center;
-}
-
-.field2 {
-  background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.65),
-      rgba(0, 0, 0, 0.65)
-    ),
-    url("./media/tong-hop-kich-thuoc-san-bong-da-7-nguoi-dat-chuan-moi-nhat-1294.jpg");
-  background-size: 250%;
-  background-position: center;
-}
-
-.field3 {
-  background: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.65),
-      rgba(0, 0, 0, 0.65)
-    ),
-    url("./media/kich-thuoc-san-bong-da-1-jpeg.webp");
-  background-size: 250%;
-  background-position: center;
-}
-
-.field1:hover,
-.field2:hover,
-.field3:hover {
-  background-size: 280%; /* Increase the background size to zoom in */
-}
-
-.orderBtn {
-  text-decoration: none;
-  width: 50%;
-  padding: 1rem;
-  background: #8383832f;
-  transition: 0.3s;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background-size 0.3s ease;
+  overflow: hidden;
   text-align: center;
-  font-size: 1rem;
+}
+
+.field:hover {
+  transform: scale(1.05);
+  background-size: 280%; /* Phóng to nền khi hover */
+}
+
+.field1, .field2, .field3 {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65));
+}
+
+
+
+/* Nút đặt sân */
+.orderBtn {
+  display: inline-block;
+  text-decoration: none;
+  width: 60%;
+  padding: 0.8rem 0;
+  background: rgba(131, 131, 131, 0.3);
   color: #fff;
-  border-radius: 0 40% 0 40%;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  margin-top: 1rem;
+  transition: background 0.3s, transform 0.3s;
 }
 
 .orderBtn:hover {
-  background: #777777;
-  border-radius: 40% 0 40% 0;
-  letter-spacing: 1px;
+  background: #555;
+  transform: translateY(-2px); /* Hiệu ứng hover nâng nhẹ */
 }
 
-/* Media Queries */
-@media (max-width: 1320px) {
+/* Bảng lịch đặt sân */
+.dashboardWrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboardTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboardTable th,
+.dashboardTable td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  font-size: 1rem;
+}
+
+.dashboardTable th {
+  background-color: #343a40;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.dashboardTable td {
+  background-color: #f8f9fa;
+}
+
+.dashboardTable tr:nth-child(even) td {
+  background-color: #e9ecef;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
   .field {
-    height: 250px;
-    width: 250px;
-    font-size: 2rem;
+    height: 280px;
+    width: 280px;
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 768px) {
   .field {
-    height: 150px;
-    width: 150px;
-    font-size: 1.5rem;
+    height: 200px;
+    width: 200px;
+    font-size: 1rem;
   }
-  .fieldtypeList{
+  .fieldtypeList {
     flex-direction: column;
+    gap: 1rem;
   }
 }
 
@@ -110,11 +131,26 @@
   .field {
     height: 150px;
     width: 150px;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
   .orderBtn {
-    width: 70%;
+    width: 80%;
     font-size: 0.8rem;
   }
+
+  .dashboardTable th,
+  .dashboardTable td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+.chartWrapper {
+  width: 80%;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

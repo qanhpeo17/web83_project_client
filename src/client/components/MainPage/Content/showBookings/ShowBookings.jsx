@@ -1,159 +1,105 @@
-import React from "react";
-import "./showBookings.css";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import moment from "moment";
+import "./showBookings.css";
+
 function ShowBookings() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
-  const [fieldType, setFieldType] = useState([]);
-  const [fieldChild, setFieldChild] = useState([]);
-
+  const [fieldDetails, setFieldDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const token = localStorage.getItem("access_token");
-  const decodeToken = (token) => {
-    const base64Url = token.split(".")[1]; // Lay payload
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
+  const userData = JSON.parse(atob(token.split(".")[1]));
 
-    return JSON.parse(jsonPayload);
-  };
-  const userData = decodeToken(token);
-  console.log(userData);
-  //
-
-  //
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `http://localhost:9009/api/v1/booking/user/${userData.id}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        if (!response.ok) {
-          throw new Error("Có lỗi xảy ra khi lấy dữ liệu từ server.");
-        }
-        const data = await response.json();
-        setBookings(data.bookings);
+        setBookings(response.data.bookings);
+
+        // Fetch field details for each booking
+        const fieldDataPromises = response.data.bookings.map(
+          async (booking) => {
+            const fieldTypeResponse = await axios.get(
+              `http://localhost:9009/api/v1/field/${booking.field}`
+            );
+            const fieldChildResponse = await axios.get(
+              `http://localhost:9009/api/v1/field/getchild/${booking.fieldChild}`
+            );
+            return {
+              [booking._id]: {
+                fieldType: fieldTypeResponse.data.name,
+                fieldChild: fieldChildResponse.data.childField.name,
+              },
+            };
+          }
+        );
+
+        const fieldDataResults = await Promise.all(fieldDataPromises);
+        const details = Object.assign({}, ...fieldDataResults);
+        setFieldDetails(details);
       } catch (error) {
-        setError(error.message);
+        setError("Lỗi khi tải dữ liệu.");
       } finally {
         setLoading(false);
       }
     };
-    console.log(bookings);
     fetchBookings();
-  }, []);
-  useEffect(() => {
-    if (bookings.length > 0) {
-      //
-      const fetchFieldDetails = async () => {
-        try {
-          const fieldTypeResponse = await fetch(
-            `http://localhost:9009/api/v1/field/${bookings[0].field}`
-          );
-          if (!fieldTypeResponse.ok) {
-            throw new Error("Có lỗi xảy ra khi lấy field type.");
-          }
-          const fieldTypeData = await fieldTypeResponse.json();
-          console.log(fieldTypeData.name);
-          setFieldType(fieldTypeData.name);
-
-          const fieldChildResponse = await fetch(
-            `http://localhost:9009/api/v1/field/getchild/${bookings[0].fieldChild}`
-          );
-          if (!fieldChildResponse.ok) {
-            throw new Error("Có lỗi xảy ra khi lấy field child.");
-          }
-          const fieldChildData = await fieldChildResponse.json();
-          setFieldChild(fieldChildData.childField);
-        } catch (error) {
-          setError(error.message);
-        }
-        setLoading(false);
-      };
-      // console.log(fieldType);
-      // console.log(fieldChild);
-      fetchFieldDetails();
-    }
-  }, [bookings]);
+  }, [userData.id, token]);
 
   const handleDeleteBooking = async (bookingId) => {
-    axios
-      .delete(`http://localhost:9009/api/v1/booking/${bookingId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("Response từ server:", response.data);
-        alert("Xoá sân thành công");
-        navigate("/MainPage");
-      })
-      .catch((error) => {
-        console.log("Có lỗi khi gửi request:", error);
-        setError("Có lỗi khi xóa lịch đặt");
+    try {
+      await axios.delete(`http://localhost:9009/api/v1/booking/${bookingId}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
+      setBookings((prevBookings) =>
+        prevBookings.filter((booking) => booking._id !== bookingId)
+      );
+      alert("Xóa lịch đặt thành công");
+    } catch {
+      setError("Có lỗi khi xóa lịch đặt.");
+    }
   };
-  if (loading) {
-    return <div>Đang tải dữ liệu...</div>;
-  }
 
-  if (error) {
-    return <div>{`Lỗi: ${error}`}</div>;
-  }
+  if (loading) return <div>Đang tải dữ liệu...</div>;
+  if (error) return <div>{`Lỗi: ${error}`}</div>;
+
   return (
     <div className="tableWrapper">
-      <table
-        border="1"
-        style={{
-          width: "100%",
-          borderCollapse: "",
-          backgroundColor: "#000",
-          textAlign: "center",
-        }}
-      >
+      <table className="bookingsTable">
         <thead>
           <tr>
-            <th>Sân</th>
-            <th>Loại Sân</th>
-            <th>Giờ Thuê</th>
-            <th>Ngày Thuê</th>
+            <th>Sân con</th>
+            <th>Loại sân</th>
+            <th>Giờ thuê</th>
+            <th>Ngày thuê</th>
+            <th>Trọng tài</th>
+            <th>Bóng</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
           {bookings.length > 0 ? (
-            bookings.map((booking, index) => (
-              <tr key={index}>
-                <td>{fieldChild ? fieldChild.name : "Đang tải..."}</td>
-                <td>{fieldType || "Đang tải..."}</td>
-                <td>{booking.rentalTime}</td>
-                <td>{moment(booking.rentalDate).format("DD/MM/yyyy")}</td>
+            bookings.map((booking) => (
+              <tr key={booking._id}>
                 <td>
-                  <button
-                    style={{
-                      width: "6rem",
-                      height: "2rem",
-                      padding: "1rem 2rem",
-                      textAlign: "center",
-                    }}
-                    onClick={() => handleDeleteBooking(booking._id)}
-                  >
+                  {fieldDetails[booking._id]?.fieldChild || "Đang tải..."}
+                </td>
+                <td>{fieldDetails[booking._id]?.fieldType || "Đang tải..."}</td>
+                <td>{moment(booking.rentalTime).format("HH:mm")}</td>
+                <td>{moment(booking.rentalDate).format("DD/MM/yyyy")}</td>
+                <td>{booking.referee ? "Có" : "Không"}</td>
+                <td>{booking.ball === 1 ? "Banh size 4" : "Banh size 5"}</td>
+                <td>
+                  <button onClick={() => handleDeleteBooking(booking._id)}>
                     Xóa
                   </button>
                 </td>
@@ -161,22 +107,7 @@ function ShowBookings() {
             ))
           ) : (
             <tr>
-              <td colSpan="4" style={{ color: "#fff" }}>
-                Bạn chưa đặt sân
-                <br />
-                <button
-                  style={{
-                    width: "6rem",
-                    height: "2rem",
-                    padding: "1rem 0 2rem",
-                    textAlign: "center",
-                    marginTop: "1rem",
-                  }}
-                  onClick={() => navigate("/booking")}
-                >
-                  Đặt sân
-                </button>
-              </td>
+              <td colSpan="5">Bạn chưa đặt sân.</td>
             </tr>
           )}
         </tbody>
